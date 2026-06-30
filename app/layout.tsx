@@ -14,7 +14,7 @@ const playfair = Playfair_Display({
 
 const jetbrains = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-playfair', // wait, typo here, let's fix it in the next step or just write it correctly
+  variable: '--font-jetbrains',
 });
 
 export const metadata: Metadata = {
