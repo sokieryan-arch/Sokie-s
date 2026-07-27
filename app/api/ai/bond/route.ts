@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { generateCharacterBond } from '@/lib/ai';
 import { analyzeBondStructure, createLocalBondFallback } from '@/lib/bonds';
 import { jsonError } from '@/lib/http';
-import { saveBond } from '@/lib/supabaseServer';
+import { saveBond } from '@/lib/localStore';
 import { StoredCharacter } from '@/lib/types';
 
 export async function POST(request: Request) {

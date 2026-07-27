@@ -1,13 +1,13 @@
 # Bazi Novel Engine
 
-基于八字命盘的 AI 小说角色与故事工作台。
+AI 命理小说角色与故事工作台。
 
 ## 功能
 
 - 公历、农历、干支三种出生输入
 - 自动换算四柱八字、五行、纳音、日主与五行分布
 - 基于命盘生成角色档案，支持换名与自定义姓名
-- 使用 Supabase Postgres 保存角色库
+- 使用服务器本地文件存储角色库与羁绊，不再依赖 Supabase
 - 选择主角与配角，生成命格羁绊
 - 基于角色阵容与羁绊生成导演大纲或完整章节
 
@@ -23,18 +23,22 @@ npm run dev
 
 ```bash
 DEEPSEEK_API_KEY="YOUR_DEEPSEEK_API_KEY"
-SUPABASE_URL="https://YOUR_PROJECT.supabase.co"
-SUPABASE_SERVICE_ROLE_KEY="YOUR_SUPABASE_SERVICE_ROLE_KEY"
+BAZI_DATA_DIR=".data"
 ```
 
-## Supabase
+`BAZI_DATA_DIR` 用于保存角色库数据。生产服务器建议使用 `/var/lib/bazi-novel-engine`，这样重新拉代码、构建或重启服务都不会覆盖角色数据。
 
-在 Supabase SQL Editor 中执行 `supabase.schema.sql`，创建：
+## 服务器部署
 
-- `characters`
-- `bonds`
+项目可以直接部署在火山服务器上：
 
-当前版本按个人创作工具设计，不包含登录隔离。公开部署前建议加访问控制或 Supabase Auth。
+```bash
+npm ci --omit=dev
+npm run build
+BAZI_DATA_DIR=/var/lib/bazi-novel-engine npm run start
+```
+
+当前版本按个人创作工具设计，未加入登录隔离。公开部署前建议在 Nginx 或应用层增加访问密码、IP 白名单或登录系统。
 
 ## 命理边界
 

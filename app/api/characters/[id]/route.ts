@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
-import { deleteCharacter, updateCharacter } from '@/lib/supabaseServer';
+import { deleteCharacter, updateCharacter } from '@/lib/localStore';
 import { jsonError } from '@/lib/http';
 import { BaziChart, BirthInput, CharacterProfile } from '@/lib/types';
+
+export const dynamic = 'force-dynamic';
 
 type RouteContext = {
   params: Promise<{ id: string }>;

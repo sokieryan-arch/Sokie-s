@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
-import { createCharacter, listCharacters } from '@/lib/supabaseServer';
+import { createCharacter, listCharacters } from '@/lib/localStore';
 import { jsonError } from '@/lib/http';
 import { BaziChart, BirthInput, CharacterProfile } from '@/lib/types';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
