@@ -18,7 +18,7 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: '命理小说引擎 | Bazi Novel Engine',
+  title: '天枢 | 命理小说引擎',
   description: '基于八字命理的小说角色与剧本生成工具',
 };
 

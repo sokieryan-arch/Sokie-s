@@ -1,4 +1,4 @@
-# Bazi Novel Engine
+# 天枢 · Bazi Novel Engine
 
 AI 命理小说角色与故事工作台。
 

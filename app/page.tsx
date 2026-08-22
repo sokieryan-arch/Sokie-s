@@ -106,7 +106,7 @@ export default function Page() {
               <Sparkles className="h-5 w-5 text-amber-400" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-zinc-100">天机</h1>
+              <h1 className="text-xl font-semibold text-zinc-100">天枢</h1>
               <div className="text-[10px] uppercase tracking-[0.22em] text-zinc-500">Bazi Novel Engine</div>
             </div>
           </div>
