@@ -1,7 +1,8 @@
 'use client';
 
-import { Activity, CalendarDays, Compass, Orbit } from 'lucide-react';
+import { Activity, CalendarDays, Compass, Orbit, ScrollText } from 'lucide-react';
 import { ELEMENT_ORDER } from '@/lib/bazi';
+import { buildClassicalBaziAnalysis } from '@/lib/knowledge';
 import { BaziCharacter, BaziChart, WuXing } from '@/lib/types';
 
 const ELEMENT_STYLE: Record<WuXing, string> = {
@@ -21,6 +22,8 @@ export function ElementBadge({ element }: { element: WuXing }) {
 }
 
 export default function BaziChartView({ chart, compact = false }: { chart: BaziChart; compact?: boolean }) {
+  const classical = chart.classicalAnalysis || buildClassicalBaziAnalysis(chart);
+
   return (
     <div className="space-y-5">
       <div className="grid gap-3 md:grid-cols-4">
@@ -83,6 +86,45 @@ export default function BaziChartView({ chart, compact = false }: { chart: BaziC
           </div>
         </div>
       </div>
+
+      {!compact && (
+        <section className="rounded-lg border border-amber-500/20 bg-amber-500/[0.03] p-4">
+          <div className="mb-4 flex items-center gap-2 text-sm text-zinc-200">
+            <ScrollText className="h-4 w-4 text-amber-300" />
+            经典结构摘要
+            <span className="text-xs text-zinc-600">知识层</span>
+          </div>
+          <div className="grid gap-3 md:grid-cols-3">
+            <AnalysisBlock
+              title="月令"
+              text={`${classical.monthCommand.branch} · ${classical.monthCommand.season}令 · ${classical.monthCommand.element}气`}
+            />
+            <AnalysisBlock title="日主倾向" text={classical.dayMasterSupport} />
+            <AnalysisBlock title="日主十二长生" text={classical.twelveGrowth.day} />
+          </div>
+          <div className="mt-3 rounded-lg border border-zinc-800/80 bg-zinc-950/40 p-3 text-xs leading-relaxed text-zinc-400">
+            <div className="mb-2 text-zinc-300">地支藏干</div>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {chart.pillars.map((pillar) => (
+                <div key={pillar.key}>
+                  {pillar.label}{pillar.zhi.value}：
+                  {classical.pillarHiddenStems[pillar.key].map((item) => `${item.stem}${item.role}`).join('、')}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-3 text-xs leading-relaxed text-zinc-600">{classical.caution}</div>
+        </section>
+      )}
+    </div>
+  );
+}
+
+function AnalysisBlock({ title, text }: { title: string; text: string }) {
+  return (
+    <div className="rounded-lg border border-zinc-800/80 bg-zinc-950/40 p-3">
+      <div className="text-xs text-zinc-500">{title}</div>
+      <div className="mt-1 text-sm text-amber-100">{text}</div>
     </div>
   );
 }

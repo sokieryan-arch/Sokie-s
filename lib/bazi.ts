@@ -10,6 +10,7 @@ import {
   WuXing,
   YinYang,
 } from './types';
+import { buildClassicalBaziAnalysis, buildClassicalKnowledgeContext } from './knowledge';
 
 export const ELEMENT_ORDER: WuXing[] = ['木', '火', '土', '金', '水'];
 
@@ -191,7 +192,9 @@ ${pillars}
 五行分布：${elements}
 公历：${chart.solarDate || '未反推'}
 农历：${chart.lunarDate || '未反推'}
-生肖/节气：${[chart.zodiac, chart.season, chart.jieQi].filter(Boolean).join(' / ') || '无'}`;
+生肖/节气：${[chart.zodiac, chart.season, chart.jieQi].filter(Boolean).join(' / ') || '无'}
+
+${buildClassicalKnowledgeContext(chart)}`;
 }
 
 function chartFromLunar(
@@ -218,7 +221,7 @@ function chartFromLunar(
   const dayMasterElement = getStemElement(dayMaster);
   const jieQi = lunar.getJieQi() || lunar.getCurrentJieQi()?.getName();
 
-  return {
+  const chart: BaziChart = {
     inputMode,
     sourceLabel,
     solarDate: lunar.getSolar().toYmdHms(),
@@ -233,6 +236,8 @@ function chartFromLunar(
     elementCounts,
     summary: `日主${dayMaster}${dayMasterElement}，四柱为${pillars.map((pillar) => pillar.ganZhi).join('、')}。`,
   };
+  chart.classicalAnalysis = buildClassicalBaziAnalysis(chart);
+  return chart;
 }
 
 function buildManualGanzhiChart(input: Extract<BirthInput, { mode: 'ganzhi' }>): BaziChart {
@@ -247,7 +252,7 @@ function buildManualGanzhiChart(input: Extract<BirthInput, { mode: 'ganzhi' }>):
   const dayMaster = pillars[2].gan.value;
   const dayMasterElement = pillars[2].gan.element;
 
-  return {
+  const chart: BaziChart = {
     inputMode: 'ganzhi',
     sourceLabel: '干支四柱手动输入',
     dayMaster,
@@ -257,6 +262,8 @@ function buildManualGanzhiChart(input: Extract<BirthInput, { mode: 'ganzhi' }>):
     elementCounts,
     summary: `手动四柱${pillars.map((pillar) => pillar.ganZhi).join('、')}，日主${dayMaster}${dayMasterElement}。`,
   };
+  chart.classicalAnalysis = buildClassicalBaziAnalysis(chart);
+  return chart;
 }
 
 function buildPillar(

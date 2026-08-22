@@ -56,6 +56,26 @@ export type EarthlyBranch =
 export type WuXing = '木' | '火' | '土' | '金' | '水';
 export type YinYang = '阳' | '阴';
 export type PillarKey = 'year' | 'month' | 'day' | 'time';
+export type SeasonName = '春' | '夏' | '秋' | '冬';
+export type HiddenStemRole = '本气' | '中气' | '余气';
+export type TwelveGrowthStage =
+  | '长生'
+  | '沐浴'
+  | '冠带'
+  | '临官'
+  | '帝旺'
+  | '衰'
+  | '病'
+  | '死'
+  | '墓'
+  | '绝'
+  | '胎'
+  | '养';
+export type ClassicalSourceId =
+  | 'ziPingZhenQuan'
+  | 'qiongTongBaoJian'
+  | 'diTianSui'
+  | 'sanMingTongHui';
 
 export interface BaziCharacter {
   value: string;
@@ -75,6 +95,27 @@ export interface BaziPillar {
   shiShenZhi?: string[];
 }
 
+export interface HiddenStem {
+  stem: HeavenlyStem;
+  role: HiddenStemRole;
+  element: WuXing;
+}
+
+export interface ClassicalBaziAnalysis {
+  sourceIds: ClassicalSourceId[];
+  monthCommand: {
+    branch: EarthlyBranch;
+    season: SeasonName;
+    element: WuXing;
+    note: string;
+  };
+  pillarHiddenStems: Record<PillarKey, HiddenStem[]>;
+  twelveGrowth: Record<PillarKey, TwelveGrowthStage>;
+  dayMasterSupport: '偏强' | '中和' | '偏弱' | '待观察';
+  narrativeSignals: string[];
+  caution: string;
+}
+
 export interface BaziChart {
   inputMode: BirthInputMode;
   sourceLabel: string;
@@ -89,6 +130,7 @@ export interface BaziChart {
   characters: BaziCharacter[];
   elementCounts: Record<WuXing, number>;
   summary: string;
+  classicalAnalysis?: ClassicalBaziAnalysis;
 }
 
 export interface LifeStage {
